@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg-paper: url('./assets/bg.jpg');
+}
+
+.dark {
+  --bg-paper: linear-gradient(rgba(18, 17, 16, 0.86), rgba(18, 17, 16, 0.86)), url('./assets/bg.jpg');
+}
+
+.bg-paper {
+  background-image: var(--bg-paper);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.bg-paper-light {
+  background-image: url('./assets/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-paper-dark {
+  background-image: linear-gradient(rgba(18, 17, 16, 0.86), rgba(18, 17, 16, 0.86)), url('./assets/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ========== أنيميشن تكرمش الورقة (من الأطراف للوسط → كورة → ترجع تتفرد) ========== */
+
+/* شكل الورقة: 16 نقطة لازم تفضل بنفس العدد في كل المراحل عشان الـ clip-path يتحرك بنعومة */
+:root {
+  --paper-flat: polygon(
+    0% 0%, 25% 0%, 50% 0%, 75% 0%, 100% 21%, 100% 40%, 100% 60%, 100% 80%,
+    100% 100%, 66% 100%, 33% 100%, 0% 100%, 0% 75%, 0% 50%, 0% 25%, 0% 12%
+  );
+  /* الأطراف بدأت تتطوي للداخل بشكل غير منتظم */
+  --paper-folding: polygon(
+    14% 12%, 30% 18%, 48% 8%, 66% 16%, 88% 20%, 84% 38%, 93% 56%, 82% 70%,
+    88% 88%, 64% 82%, 42% 92%, 16% 86%, 14% 70%, 6% 54%, 14% 36%, 6% 22%
+  );
+  /* كورة ورق مكرمشة بحواف مسننة */
+  --paper-ball: polygon(
+    26% 30%, 39.6% 29.3%, 50% 23.4%, 60.2% 29.8%, 74% 30.2%, 76.7% 40.9%, 81.3% 50%, 75.1% 58.6%,
+    74% 69.8%, 60.7% 71.2%, 50% 76.6%, 39.6% 70.7%, 26% 69.8%, 23.6% 59%, 18.4% 50%, 24.9% 41.4%
+  );
+  /* الكورة بعد ما اتعصرت أكتر */
+  --paper-ball-tight: polygon(
+    30% 34%, 42% 33%, 50% 28%, 58% 34%, 70% 33%, 72% 43%, 76% 50%, 71% 57%,
+    69% 66%, 58% 67%, 50% 72%, 42% 66%, 31% 66%, 28% 57%, 24% 50%, 29% 43%
+  );
+  /* بتتفرد تاني بس لسه فيها تعريج */
+  --paper-unfolding: polygon(
+    6% 4%, 26% 8%, 50% 3%, 72% 7%, 96% 22%, 92% 40%, 97% 62%, 93% 80%,
+    95% 96%, 66% 92%, 34% 97%, 4% 94%, 8% 74%, 3% 50%, 7% 26%, 3% 12%
+  );
+}
+
+/* شكل الورقة نفسها (القص) */
+@keyframes paper-crumple-shape {
+  0%   { clip-path: var(--paper-flat); }
+  28%  { clip-path: var(--paper-folding); }
+  50%  { clip-path: var(--paper-ball); }
+  62%  { clip-path: var(--paper-ball-tight); }
+  84%  { clip-path: var(--paper-unfolding); }
+  100% { clip-path: var(--paper-flat); }
+}
+
+/* حركة الزر كله: لفة وعصرة وهو بيتكور وبعدين يرجع */
+@keyframes paper-crumple-body {
+  0%   { transform: rotate(0deg) scale(1); }
+  28%  { transform: rotate(-10deg) scale(0.97); }
+  50%  { transform: rotate(14deg) scale(0.92); }
+  62%  { transform: rotate(-6deg) scale(0.88); }
+  84%  { transform: rotate(3deg) scale(1.04); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+/* خطوط الكرمشة والظل بيظهروا مع التكور */
+@keyframes paper-crumple-creases {
+  0%   { opacity: 0; }
+  28%  { opacity: 0.6; }
+  50%, 62% { opacity: 1; }
+  84%  { opacity: 0.35; }
+  100% { opacity: 0; }
+}
+
+.animate-crumple {
+  animation: paper-crumple-body 900ms cubic-bezier(0.45, 0, 0.25, 1) both;
+}
+
+.paper-sheet {
+  clip-path: var(--paper-flat);
+}
+
+.animate-crumple .paper-sheet {
+  animation: paper-crumple-shape 900ms cubic-bezier(0.45, 0, 0.25, 1) both;
+}
+
+.paper-creases {
+  opacity: 0;
+}
+
+.animate-crumple .paper-creases {
+  animation: paper-crumple-creases 900ms ease-in-out both;
+}
+
