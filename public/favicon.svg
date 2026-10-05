@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- أيقونة طائرة ورقية ثلاثية الأبعاد واضحة للتاب -->
+  <g id="paper-plane">
+    <!-- الجناح الأيسر / العلوي -->
+    <path
+      d="M 6 28 L 58 10 L 25 35 Z"
+      fill="#FAFAF9"
+      stroke="#1C1917"
+      stroke-width="2.5"
+      stroke-linejoin="round"
+    />
+    <!-- طية المنتصف الداخلية المظللة -->
+    <path
+      d="M 25 35 L 58 10 L 28 54 Z"
+      fill="#D6D3D1"
+      stroke="#1C1917"
+      stroke-width="2.5"
+      stroke-linejoin="round"
+    />
+    <!-- مثلث الذيل السفلي -->
+    <path
+      d="M 25 35 L 28 54 L 38 44 Z"
+      fill="#A8A29E"
+      stroke="#1C1917"
+      stroke-width="2.5"
+      stroke-linejoin="round"
+    />
+    <!-- الجناح الأيمن / السفلي -->
+    <path
+      d="M 38 44 L 58 10 L 52 56 Z"
+      fill="#F5F5F4"
+      stroke="#1C1917"
+      stroke-width="2.5"
+      stroke-linejoin="round"
+    />
+  </g>
+</svg>
