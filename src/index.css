@@ -1,6 +1,6 @@
 @import "tailwindcss";
 *{
-    scrller-behavior: smooth;
+    scroll-behavior: smooth;
 }
 @custom-variant dark (&:where(.dark, .dark *));
 
