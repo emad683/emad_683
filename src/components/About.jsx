@@ -42,7 +42,6 @@ export default function About() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-stone-300/50 dark:border-stone-700/50">
             {/* Card 1 */}
             <div className="p-4 rounded-xl bg-black/5 dark:bg-white/5 border border-stone-300/60 dark:border-stone-700/60">
-              <div className="text-xl mb-2">🎨</div>
               <h3 className="font-bold text-stone-900 dark:text-stone-100 mb-1 text-sm sm:text-base">
                 Modern UI/UX Design
               </h3>
@@ -53,7 +52,6 @@ export default function About() {
 
             {/* Card 2 */}
             <div className="p-4 rounded-xl bg-black/5 dark:bg-white/5 border border-stone-300/60 dark:border-stone-700/60">
-              <div className="text-xl mb-2">⚡</div>
               <h3 className="font-bold text-stone-900 dark:text-stone-100 mb-1 text-sm sm:text-base">
                 High Performance
               </h3>
@@ -64,7 +62,6 @@ export default function About() {
 
             {/* Card 3 */}
             <div className="p-4 rounded-xl bg-black/5 dark:bg-white/5 border border-stone-300/60 dark:border-stone-700/60">
-              <div className="text-xl mb-2">✨</div>
               <h3 className="font-bold text-stone-900 dark:text-stone-100 mb-1 text-sm sm:text-base">
                 Creative Interactions
               </h3>

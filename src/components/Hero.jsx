@@ -51,7 +51,7 @@ export default function Hero() {
 
           {/* Name & Greeting */}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-stone-900 dark:text-stone-100 mb-2">
-            Hi, I'm <span className="text-stone-800 dark:text-stone-200">Emad Ahmed</span> 👋
+            Welcome, I'm <span className="text-stone-800 dark:text-stone-200">Emad Ahmed</span>
           </h1>
 
           {/* Specialization */}
