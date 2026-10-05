@@ -18,19 +18,6 @@
   background-attachment: fixed;
 }
 
-.bg-paper-light {
-  background-image: url('./assets/bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.bg-paper-dark {
-  background-image: linear-gradient(rgba(18, 17, 16, 0.86), rgba(18, 17, 16, 0.86)), url('./assets/bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
 
 /* ========== أنيميشن تكرمش الورقة (من الأطراف للوسط → كورة → ترجع تتفرد) ========== */
 

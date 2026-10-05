@@ -14,7 +14,7 @@ import Cpp from '../assets/Cpp.jpg'
 
 // مصفوفة الشهادات (Array of Certificate Objects)
 // يمكنك استبدال روابط الصور بصور شهاداتك الحقيقية من مجلد assets
-export const certificatesData = [
+const certificatesData = [
   {
     id: 1,
     title: 'Python Programming Fundamentals',
