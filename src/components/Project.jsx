@@ -3,45 +3,15 @@ import { FaArrowUpRightFromSquare, FaGithub, FaFolderOpen } from 'react-icons/fa
 export default function Project() {
   const projects = [
     {
-      title: 'Interactive 3D Portfolio',
-      category: 'Web / 3D Experience',
-      description:
-        'A personal interactive web experience featuring a tactile 3D paper aesthetic, seamless light/dark theme transitions, and high-performance animations.',
-      tags: ['React', 'Tailwind CSS', 'Vite', '3D / UI'],
-      demoUrl: '#',
-      githubUrl: '#',
-      accent: 'from-amber-500/20 to-orange-500/10',
-    },
-    {
-      title: 'Unity Action Adventure',
-      category: 'Game Development',
-      description:
-        'An action-adventure game built with Unity and C#, featuring fluid character movement, gameplay mechanics, custom assets, and realistic physics.',
-      tags: ['Unity', 'C#', 'Blender', '3D Modeling'],
-      demoUrl: '#',
-      githubUrl: '#',
-      accent: 'from-blue-500/20 to-indigo-500/10',
-    },
-    {
-      title: 'Modern E-Commerce Store',
+      title: 'Teacher Dashboard',
       category: 'Web Application',
       description:
-        'A full-featured modern web store with responsive design, dynamic cart management, smooth checkout flows, and cross-device compatibility.',
-      tags: ['JavaScript', 'React', 'Tailwind', 'REST API'],
-      demoUrl: '#',
-      githubUrl: '#',
-      accent: 'from-emerald-500/20 to-teal-500/10',
-    },
-    {
-      title: 'Media & Video Showcase Studio',
-      category: 'Creative / Multimedia',
-      description:
-        'A multimedia platform showcasing video editing, motion graphics, and graphic design work with custom video player integration and interactive galleries.',
-      tags: ['Video Editing', 'Graphic Design', 'Motion Graphics', 'UI/UX'],
-      demoUrl: '#',
-      githubUrl: '#',
-      accent: 'from-rose-500/20 to-purple-500/10',
-    },
+        'A responsive teacher dashboard built with HTML, CSS, and JavaScript, featuring dynamic data visualization, interactive components, and user-friendly navigation. (demo-> User: Test Password: test)',
+      tags: ['HTML', 'CSS', 'JavaScript', 'Python'],
+      demoUrl: 'https://teacher-dashboard-green.vercel.app/',
+      githubUrl: 'https://github.com/emad683/teacher-dashboard',
+      accent: 'from-amber-500/20 to-orange-500/10',
+    }
   ]
 
   return (

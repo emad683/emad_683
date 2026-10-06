@@ -4,7 +4,7 @@ export default function Footer() {
   const socialLinks = [
     {
       name: 'WhatsApp',
-      href: 'https://whatsapp.com/send?phone=+201515698631',
+      href: 'https://wa.me/201515698631',
       icon: <FaWhatsapp className="w-5 h-5" />,
       color: 'hover:text-emerald-500 hover:border-emerald-500/50',
     },
