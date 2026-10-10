@@ -43,7 +43,7 @@ export default function Hero() {
           <div className="flex flex-wrap items-center gap-4">
             <a
               href="#content"
-              className="px-6 py-2.5 rounded-xl font-semibold text-sm bg-stone-900 text-white hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white shadow-md hover:shadow-lg transition-all cursor-pointer"
+              className="px-6 py-2.5 rounded-xl font-semi;bold text-sm bg-stone-900 text-white hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white shadow-md hover:shadow-lg transition-all cursor-pointer"
             >
               Get in Touch
             </a>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 
-const navItems = ['home', 'about', 'skill', 'project', 'edu', 'content']
+const navItems = ['Home', 'About', 'Skill', 'Project', 'Education', 'Content']
 
 const rotations = {
   home: '-1.5deg',
