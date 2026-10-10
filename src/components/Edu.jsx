@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fa6'
 import python from '../assets/Py.png'
 import Cpp from '../assets/Cpp.jpg'
+import Ai_Hac from '../assets/Ai_Hackathons.jpg'
 
 // مصفوفة الشهادات (Array of Certificate Objects)
 // يمكنك استبدال روابط الصور بصور شهاداتك الحقيقية من مجلد assets
@@ -34,7 +35,16 @@ const certificatesData = [
     image: Cpp,
     description:
       'This certificate validates the completion of a comprehensive C++ programming course, covering fundamental concepts, data structures, and practical applications in software development.',
-  }
+  },
+  {
+    id:3,
+    title:'Ai Hackathons',
+    field:'Ai',
+    issuer:'itida / tiec / Orange / Instant',
+    date:'2026',
+    image: Ai_Hac,
+    description:'This is a Certificate of Attendance & Performance issued by Orange Digital Center and Creativa (Innovation Hubs).',
+  },
 ]
 
 export default function Edu() {
