@@ -1,11 +1,13 @@
+import { lazy, Suspense } from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import About from '../components/About'
-import Skill from '../components/Skill'
-import Project from '../components/Project'
-import Edu from '../components/Edu'
-import Content from '../components/Content'
-import Footer from '../components/Footer'
+
+const Skill = lazy(() => import('../components/Skill'))
+const Project = lazy(() => import('../components/Project'))
+const Edu = lazy(() => import('../components/Edu'))
+const Content = lazy(() => import('../components/Content'))
+const Footer = lazy(() => import('../components/Footer'))
 
 export default function Home() {
   return (
@@ -13,11 +15,13 @@ export default function Home() {
       <Navbar />
       <Hero />
       <About />
-      <Skill />
-      <Project />
-      <Edu />
-      <Content />
-      <Footer />
+      <Suspense fallback={null}>
+        <Skill />
+        <Project />
+        <Edu />
+        <Content />
+        <Footer />
+      </Suspense>
     </div>
   )
 }
