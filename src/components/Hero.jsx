@@ -1,4 +1,4 @@
-import profileImage from '../assets/image.png'
+import profileImage from '../assets/image.webp'
 
 export default function Hero() {
   return (
@@ -76,6 +76,10 @@ export default function Hero() {
             <img
               src={profileImage}
               alt="Emad Ahmed"
+              width="320"
+              height="320"
+              fetchPriority="high"
+              decoding="async"
               className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-300"
             />
           </div>

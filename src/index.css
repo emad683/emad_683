@@ -5,11 +5,11 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --bg-paper: url('./assets/bg.jpg');
+  --bg-paper: url('./assets/bg.webp');
 }
 
 .dark {
-  --bg-paper: linear-gradient(rgba(18, 17, 16, 0.86), rgba(18, 17, 16, 0.86)), url('./assets/bg.jpg');
+  --bg-paper: linear-gradient(rgba(18, 17, 16, 0.86), rgba(18, 17, 16, 0.86)), url('./assets/bg.webp');
 }
 
 .bg-paper {

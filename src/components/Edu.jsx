@@ -9,9 +9,9 @@ import {
   FaXmark,
   FaArrowUpRightFromSquare,
 } from 'react-icons/fa6'
-import python from '../assets/Py.png'
-import Cpp from '../assets/Cpp.jpg'
-import Ai_Hac from '../assets/Ai_Hackathons.jpg'
+import python from '../assets/Py.webp'
+import Cpp from '../assets/Cpp.webp'
+import Ai_Hac from '../assets/Ai_Hackathons.webp'
 
 // مصفوفة الشهادات (Array of Certificate Objects)
 // يمكنك استبدال روابط الصور بصور شهاداتك الحقيقية من مجلد assets
@@ -157,6 +157,10 @@ export default function Edu() {
                             <img
                               src={cert.image}
                               alt={cert.title}
+                              loading="lazy"
+                              decoding="async"
+                              width="560"
+                              height="396"
                               className="w-full h-full object-contain object-center group-hover/img:scale-102 transition-transform duration-300"
                             />
                             {/* طبقة تراكب عند التمرير بالماوس مع زر التكبير */}
@@ -234,6 +238,7 @@ export default function Edu() {
               <img
                 src={selectedCert.image}
                 alt={selectedCert.title}
+                decoding="async"
                 className="w-full h-auto max-h-[70vh] object-contain"
               />
             </div>
