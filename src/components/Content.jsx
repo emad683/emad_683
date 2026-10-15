@@ -20,7 +20,8 @@ export default function Content() {
   }
 
   return (
-    <section id="content" className="w-full py-16 md:py-24 flex justify-center">
+    <section id="content" className="w-full py-16 md:py-24 flex justify-center scroll-mt-20">
+      <div id="contact" className="sr-only" />
       {/* Container 85% width */}
       <div className="w-[85%] select-none">
         

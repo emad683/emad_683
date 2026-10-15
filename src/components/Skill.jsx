@@ -1,4 +1,5 @@
 import {
+  FaReact,
   FaJava,
   FaPython,
   FaJs,
@@ -14,6 +15,12 @@ import { TbBrandCSharp } from 'react-icons/tb'
 
 export default function Skill() {
   const skills = [
+    {
+      name: 'React',
+      tilt: 'rotate-2',
+      color: 'text-[#00d8ff]',
+      icon: <FaReact className="w-6 h-6 sm:w-7 sm:h-7" />,
+    },
     {
       name: 'JavaScript',
       tilt: '-rotate-2',
@@ -95,7 +102,7 @@ export default function Skill() {
   ]
 
   return (
-    <section id="skill" className="w-full py-16 md:py-24 flex justify-center">
+    <section id="skill" className="w-full py-16 md:py-24 flex justify-center scroll-mt-20">
       {/* حاوية القسم بعرض 85% */}
       <div className="w-[85%] select-none">
         

@@ -62,7 +62,8 @@ export default function Edu() {
   }
 
   return (
-    <section id="edu" className="w-full py-16 md:py-24 flex justify-center">
+    <section id="edu" className="w-full py-16 md:py-24 flex justify-center scroll-mt-20">
+      <div id="education" className="sr-only" />
       {/* حاوية القسم بعرض 85% كباقي الأقسام */}
       <div className="w-[85%] select-none">
         

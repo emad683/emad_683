@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="w-full max-w-6xl mx-auto px-6 py-12 md:py-20 flex flex-col md:flex-row items-center gap-10 lg:gap-14"
+      className="w-full max-w-6xl mx-auto px-6 py-12 md:py-20 flex flex-col md:flex-row items-center gap-10 lg:gap-14 scroll-mt-20"
     >
       {/* 1. فريم الصورة: دائري بأطراف ورق مقصوص بحجم أكبر وبمسافة إطار أصغر */}
 

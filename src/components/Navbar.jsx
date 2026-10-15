@@ -1,6 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
 
-const navItems = ['Home', 'About', 'Skill', 'Project', 'Education', 'Content']
+const navItems = [
+  { name: 'Home', id: 'home' },
+  { name: 'About', id: 'about' },
+  { name: 'Skill', id: 'skill' },
+  { name: 'Project', id: 'project' },
+  { name: 'Education', id: 'edu' },
+  { name: 'Content', id: 'content' },
+]
 
 const rotations = {
   home: '-1.5deg',
@@ -18,6 +25,7 @@ export default function Navbar() {
   })
   const [isCrumpling, setIsCrumpling] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, top: 0, width: 0, height: 0, ready: false })
 
   const navContainerRef = useRef(null)
@@ -38,6 +46,56 @@ export default function Navbar() {
       })
     }
   }
+
+  // Smooth scroll handler with offset for sticky navbar
+  const scrollToSection = (id) => {
+    setActiveSection(id)
+    setIsMobileMenuOpen(false)
+
+    let target = document.getElementById(id)
+    if (!target && id === 'edu') target = document.getElementById('education')
+    if (!target && id === 'education') target = document.getElementById('edu')
+    if (!target && id === 'content') target = document.getElementById('contact')
+    if (!target && id === 'contact') target = document.getElementById('content')
+
+    if (target) {
+      const navOffset = 75
+      const elementPosition = target.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - navOffset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      })
+    }
+  }
+
+  // Scroll spy to update active section on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.pageYOffset
+      const navOffset = 120
+
+      for (let i = navItems.length - 1; i >= 0; i--) {
+        const item = navItems[i]
+        let el = document.getElementById(item.id)
+        if (!el && item.id === 'edu') el = document.getElementById('education')
+        if (!el && item.id === 'content') el = document.getElementById('contact')
+
+        if (el) {
+          const top = el.offsetTop - navOffset
+          if (scrollY >= top) {
+            setActiveSection(item.id)
+            break
+          }
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useEffect(() => {
     const timer = setTimeout(() => updateIndicator(activeSection), 30)
@@ -75,16 +133,19 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 w-full px-6 py-4 flex justify-between items-center bg-white/70 dark:bg-black/70 border-b border-gray-300/50 dark:border-gray-800/50 backdrop-blur-md text-gray-800 dark:text-gray-100 transition-colors duration-300 shadow-xs">
+    <nav className="sticky top-0 z-50 w-full px-4 sm:px-6 py-3.5 sm:py-4 flex justify-between items-center bg-white/70 dark:bg-black/70 border-b border-gray-300/50 dark:border-gray-800/50 backdrop-blur-md text-gray-800 dark:text-gray-100 transition-colors duration-300 shadow-xs">
       {/* الاسم على الشمال وفي آخره طائرة ورقية مع مسارها */}
-      <div className="flex items-center select-none">
-        <span className="text-xl sm:text-2xl font-bold tracking-tight text-stone-800 dark:text-stone-100">
+      <div
+        onClick={() => scrollToSection('home')}
+        className="flex items-center select-none cursor-pointer group"
+      >
+        <span className="text-xl sm:text-2xl font-bold tracking-tight text-stone-800 dark:text-stone-100 group-hover:text-stone-600 dark:group-hover:text-stone-300 transition-colors">
           emad ahmed
         </span>
 
         {/* مسار الطائرة الورقية + الطائرة في نهاية الاسم */}
         <svg
-          className="w-28 sm:w-32 h-11 -ml-0.5 overflow-visible text-stone-700 dark:text-stone-300"
+          className="w-24 sm:w-32 h-10 sm:h-11 -ml-0.5 overflow-visible text-stone-700 dark:text-stone-300"
           viewBox="0 0 120 44"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +199,7 @@ export default function Navbar() {
         </svg>
       </div>
 
-      {/* روابط التنقل في منتصف الـ Navbar مع مؤشر الورقة المكرمشة المتحرك */}
+      {/* روابط التنقل في منتصف الـ Navbar مع مؤشر الورقة المكرمشة المتحرك (للشاشات المتوسطة والكبيرة) */}
       <ul
         ref={navContainerRef}
         className="relative hidden md:flex items-center gap-6 lg:gap-10 text-base lg:text-lg font-semibold capitalize text-stone-700 dark:text-stone-300 py-1 px-1 select-none"
@@ -190,19 +251,15 @@ export default function Navbar() {
 
         {/* عناصر القائمة */}
         {navItems.map((item) => {
-          const isActive = activeSection === item
+          const isActive = activeSection === item.id
           return (
-            <li key={item}>
+            <li key={item.id}>
               <a
-                ref={(el) => (itemRefs.current[item] = el)}
-                href={`#${item}`}
+                ref={(el) => (itemRefs.current[item.id] = el)}
+                href={`#${item.id}`}
                 onClick={(e) => {
                   e.preventDefault()
-                  setActiveSection(item)
-                  const target = document.getElementById(item)
-                  if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' })
-                  }
+                  scrollToSection(item.id)
                 }}
                 className={`relative z-10 block px-3.5 py-1.5 transition-colors duration-200 cursor-pointer ${
                   isActive
@@ -210,111 +267,162 @@ export default function Navbar() {
                     : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200'
                 }`}
               >
-                {item}
+                {item.name}
               </a>
             </li>
           )
         })}
       </ul>
 
-      {/* زر التبديل على شكل ورقة بمظهر واقعي مع أنيميشن التكرمش */}
-      <button
-        onClick={handleToggle}
-        disabled={isCrumpling}
-        aria-label="Toggle theme"
-        title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-        className={`group relative flex items-center justify-center w-10 h-12 cursor-pointer transition-transform duration-200 focus:outline-none drop-shadow-[0_2px_3px_rgba(0,0,0,0.25)] ${
-          isCrumpling ? 'animate-crumple' : 'hover:-rotate-3 hover:scale-105 active:scale-95'
-        }`}
-      >
-        {/* الورقة نفسها - كل الطبقات جوه عشان تتكرمش مع بعض */}
-        <div className="paper-sheet absolute inset-0 bg-[#fdfbf7] dark:bg-[#1f1d1a] transition-colors duration-300">
-          {/* ثنية زاوية الورقة (Folded Ear) */}
-          <div
-            className="absolute top-0 right-0 w-[10px] h-[10px] bg-stone-300 dark:bg-stone-700 pointer-events-none"
-            style={{
-              clipPath: 'polygon(0 0, 0 100%, 100% 100%)'
-            }}
-          />
-
-          {/* خطوط خفيفة تحاكي أسطر الورقة */}
-          <div className="absolute inset-x-2 top-3 h-[1px] bg-stone-300/50 dark:bg-stone-700/50 pointer-events-none" />
-          <div className="absolute inset-x-2 bottom-3 h-[1px] bg-stone-300/50 dark:bg-stone-700/50 pointer-events-none" />
-
-          {/* خطوط الكرمشة + ظل التكور (بتظهر بس وقت الأنيميشن) */}
-          <div className="paper-creases absolute inset-0 pointer-events-none">
-            <svg
-              viewBox="0 0 40 48"
-              preserveAspectRatio="none"
-              className="absolute inset-0 w-full h-full text-stone-500 dark:text-stone-400"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="0.6"
-              strokeLinejoin="round"
-            >
-              <path d="M2 3 L12 15 L20 22 L19 30 L28 44" />
-              <path d="M38 6 L27 16 L20 22 L13 27 L3 34" />
-              <path d="M20 1 L18 12 L23 19 L20 22" />
-              <path d="M39 30 L29 27 L22 25 L16 33 L10 46" />
-              <path d="M1 18 L10 21 L14 26" />
-              <path d="M31 47 L27 36 L30 28" />
-              <path d="M12 15 L23 19 L29 27 L19 30 L13 27 Z" />
-            </svg>
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  'radial-gradient(circle at 42% 38%, rgba(255,255,255,0.25) 0%, transparent 35%, rgba(0,0,0,0.35) 80%)'
-              }}
-            />
-          </div>
-        </div>
-
-        {/* الأيقونة (الشمس / القمر) مع تفاعل الانكماش أثناء التكرمش */}
-        <div
-          className={`relative z-10 text-stone-700 dark:text-amber-400 transition-all duration-200 ${
-            isCrumpling ? 'scale-0 rotate-180 opacity-0' : 'scale-100 rotate-0 opacity-100 group-hover:scale-110'
+      {/* أزرار التحكم باليمين (المود الليلي + زر قائمة الموبايل) */}
+      <div className="flex items-center gap-3">
+        {/* زر التبديل على شكل ورقة بمظهر واقعي مع أنيميشن التكرمش */}
+        <button
+          onClick={handleToggle}
+          disabled={isCrumpling}
+          aria-label="Toggle theme"
+          title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          className={`group relative flex items-center justify-center w-10 h-12 cursor-pointer transition-transform duration-200 focus:outline-none drop-shadow-[0_2px_3px_rgba(0,0,0,0.25)] ${
+            isCrumpling ? 'animate-crumple' : 'hover:-rotate-3 hover:scale-105 active:scale-95'
           }`}
         >
-          {darkMode ? (
-            /* أيقونة الشمس */
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="4" />
-              <path d="M12 2v2" />
-              <path d="M12 20v2" />
-              <path d="m4.93 4.93 1.41 1.41" />
-              <path d="m17.66 17.66 1.41 1.41" />
-              <path d="M2 12h2" />
-              <path d="M20 12h2" />
-              <path d="m6.34 17.66-1.41 1.41" />
-              <path d="m19.07 4.93-1.41 1.41" />
-            </svg>
-          ) : (
-            /* أيقونة القمر */
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-            </svg>
-          )}
+          {/* الورقة نفسها - كل الطبقات جوه عشان تتكرمش مع بعض */}
+          <div className="paper-sheet absolute inset-0 bg-[#fdfbf7] dark:bg-[#1f1d1a] transition-colors duration-300">
+            {/* ثنية زاوية الورقة (Folded Ear) */}
+            <div
+              className="absolute top-0 right-0 w-[10px] h-[10px] bg-stone-300 dark:bg-stone-700 pointer-events-none"
+              style={{
+                clipPath: 'polygon(0 0, 0 100%, 100% 100%)'
+              }}
+            />
+
+            {/* خطوط خفيفة تحاكي أسطر الورقة */}
+            <div className="absolute inset-x-2 top-3 h-[1px] bg-stone-300/50 dark:bg-stone-700/50 pointer-events-none" />
+            <div className="absolute inset-x-2 bottom-3 h-[1px] bg-stone-300/50 dark:bg-stone-700/50 pointer-events-none" />
+
+            {/* خطوط الكرمشة + ظل التكور (بتظهر بس وقت الأنيميشن) */}
+            <div className="paper-creases absolute inset-0 pointer-events-none">
+              <svg
+                viewBox="0 0 40 48"
+                preserveAspectRatio="none"
+                className="absolute inset-0 w-full h-full text-stone-500 dark:text-stone-400"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="0.6"
+                strokeLinejoin="round"
+              >
+                <path d="M2 3 L12 15 L20 22 L19 30 L28 44" />
+                <path d="M38 6 L27 16 L20 22 L13 27 L3 34" />
+                <path d="M20 1 L18 12 L23 19 L20 22" />
+                <path d="M39 30 L29 27 L22 25 L16 33 L10 46" />
+                <path d="M1 18 L10 21 L14 26" />
+                <path d="M31 47 L27 36 L30 28" />
+                <path d="M12 15 L23 19 L29 27 L19 30 L13 27 Z" />
+              </svg>
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    'radial-gradient(circle at 42% 38%, rgba(255,255,255,0.25) 0%, transparent 35%, rgba(0,0,0,0.35) 80%)'
+                }}
+              />
+            </div>
+          </div>
+
+          {/* الأيقونة (الشمس / القمر) مع تفاعل الانكماش أثناء التكرمش */}
+          <div
+            className={`relative z-10 text-stone-700 dark:text-amber-400 transition-all duration-200 ${
+              isCrumpling ? 'scale-0 rotate-180 opacity-0' : 'scale-100 rotate-0 opacity-100 group-hover:scale-110'
+            }`}
+          >
+            {darkMode ? (
+              /* أيقونة الشمس */
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="4" />
+                <path d="M12 2v2" />
+                <path d="M12 20v2" />
+                <path d="m4.93 4.93 1.41 1.41" />
+                <path d="m17.66 17.66 1.41 1.41" />
+                <path d="M2 12h2" />
+                <path d="M20 12h2" />
+                <path d="m6.34 17.66-1.41 1.41" />
+                <path d="m19.07 4.93-1.41 1.41" />
+              </svg>
+            ) : (
+              /* أيقونة القمر */
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+              </svg>
+            )}
+          </div>
+        </button>
+
+        {/* زر قائمة الموبايل (يظهر فقط في الشاشات الصغيرة) */}
+        <button
+          onClick={() => setIsMobileMenuOpen(prev => !prev)}
+          aria-label="Toggle Navigation Menu"
+          className="flex md:hidden items-center justify-center w-10 h-10 rounded-xl bg-stone-200/80 dark:bg-stone-800/80 border border-stone-300/80 dark:border-stone-700/80 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white transition-all cursor-pointer shadow-xs active:scale-95"
+        >
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            {isMobileMenuOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
+      </div>
+
+      {/* قائمة الموبايل المنسدلة بتصميم ورقي أنيق */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 right-0 p-4 bg-[#fdfbf7]/98 dark:bg-[#1f1d1a]/98 backdrop-blur-md border-b border-stone-300/80 dark:border-stone-700/80 shadow-xl transition-all duration-300 z-50">
+          <div className="flex flex-col gap-1.5 max-w-md mx-auto">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.id
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => scrollToSection(item.id)}
+                  className={`w-full text-left px-4 py-2.5 rounded-lg text-base font-semibold transition-all duration-200 flex items-center justify-between cursor-pointer ${
+                    isActive
+                      ? 'bg-stone-200/90 dark:bg-stone-800 text-stone-950 dark:text-white font-bold'
+                      : 'text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800/60 hover:text-stone-900 dark:hover:text-stone-100'
+                  }`}
+                >
+                  <span>{item.name}</span>
+                  {isActive && (
+                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                  )}
+                </button>
+              )
+            })}
+          </div>
         </div>
-      </button>
+      )}
     </nav>
   )
 }

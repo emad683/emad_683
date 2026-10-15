@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <section id="about" className="w-full py-16 md:py-24 flex justify-center">
+    <section id="about" className="w-full py-16 md:py-24 flex justify-center scroll-mt-20">
       {/* فريم مستطيل ورقي مقصوص يأخذ 85% من عرض الصفحة */}
       <div className="relative w-[85%] select-none">
         

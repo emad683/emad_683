@@ -24,7 +24,7 @@ export default function Project() {
     ]
 
     return (
-        <section id="project" className="w-full py-16 md:py-24 flex justify-center">
+        <section id="project" className="w-full py-16 md:py-24 flex justify-center scroll-mt-20">
             {/* حاوية القسم بعرض 85% كباقي الأقسام */}
             <div className="w-[85%] select-none">
 
