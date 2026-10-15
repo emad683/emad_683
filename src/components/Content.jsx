@@ -7,16 +7,47 @@ export default function Content() {
     email: '',
     message: '',
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!formData.name || !formData.email || !formData.message) return
-    setSubmitted(true)
-    setTimeout(() => {
-      setSubmitted(false)
-      setFormData({ name: '', email: '', message: '' })
-    }, 4000)
+
+    setIsSubmitting(true)
+    setErrorMessage('')
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/emadyt0@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          _subject: `Portfolio Contact from ${formData.name}`,
+          _captcha: 'false',
+        }),
+      })
+
+      const data = await response.json()
+      if (response.ok && data.success !== 'false') {
+        setSubmitted(true)
+        setFormData({ name: '', email: '', message: '' })
+      } else {
+        throw new Error(data.message || 'Submission failed')
+      }
+    } catch {
+      setErrorMessage(
+        'Unable to send message automatically right now. You can email me directly at emadyt0@gmail.com'
+      )
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -64,12 +95,32 @@ export default function Content() {
                 <h4 className="text-lg font-bold text-stone-900 dark:text-stone-100 mb-2">
                   Thank You!
                 </h4>
-                <p className="text-sm text-stone-600 dark:text-stone-400">
-                  Your message has been sent successfully. I will get back to you soon.
+                <p className="text-sm text-stone-600 dark:text-stone-400 max-w-sm mb-6">
+                  Your message has been sent successfully to <span className="font-semibold text-stone-800 dark:text-stone-200">emadyt0@gmail.com</span>. I will get back to you soon.
                 </p>
+                <button
+                  onClick={() => setSubmitted(false)}
+                  className="px-5 py-2 rounded-lg text-xs font-bold bg-stone-200 hover:bg-stone-300 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 transition-colors cursor-pointer"
+                >
+                  Send Another Message
+                </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
+                {errorMessage && (
+                  <div className="p-3 rounded-lg text-xs font-semibold bg-red-100 dark:bg-red-950/40 border border-red-300 dark:border-red-800/60 text-red-700 dark:text-red-300">
+                    {errorMessage}
+                    <div className="mt-1">
+                      <a
+                        href={`mailto:emadyt0@gmail.com?subject=Portfolio%20Contact%20from%20${encodeURIComponent(formData.name || 'Visitor')}&body=${encodeURIComponent(formData.message)}`}
+                        className="underline text-red-800 dark:text-red-200 hover:opacity-80"
+                      >
+                        Click here to open email client directly
+                      </a>
+                    </div>
+                  </div>
+                )}
+
                 <div>
                   <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1.5">
                     Your Name
@@ -77,10 +128,11 @@ export default function Content() {
                   <input
                     type="text"
                     required
+                    disabled={isSubmitting}
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="John Doe"
-                    className="w-full px-4 py-2.5 rounded-lg bg-white/70 dark:bg-stone-900/70 border border-stone-300/80 dark:border-stone-700/80 text-stone-900 dark:text-stone-100 text-sm focus:outline-none focus:border-amber-500 transition-colors"
+                    className="w-full px-4 py-2.5 rounded-lg bg-white/70 dark:bg-stone-900/70 border border-stone-300/80 dark:border-stone-700/80 text-stone-900 dark:text-stone-100 text-sm focus:outline-none focus:border-amber-500 transition-colors disabled:opacity-60"
                   />
                 </div>
 
@@ -91,10 +143,11 @@ export default function Content() {
                   <input
                     type="email"
                     required
+                    disabled={isSubmitting}
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="john@example.com"
-                    className="w-full px-4 py-2.5 rounded-lg bg-white/70 dark:bg-stone-900/70 border border-stone-300/80 dark:border-stone-700/80 text-stone-900 dark:text-stone-100 text-sm focus:outline-none focus:border-amber-500 transition-colors"
+                    className="w-full px-4 py-2.5 rounded-lg bg-white/70 dark:bg-stone-900/70 border border-stone-300/80 dark:border-stone-700/80 text-stone-900 dark:text-stone-100 text-sm focus:outline-none focus:border-amber-500 transition-colors disabled:opacity-60"
                   />
                 </div>
 
@@ -105,19 +158,33 @@ export default function Content() {
                   <textarea
                     rows={4}
                     required
+                    disabled={isSubmitting}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Tell me about your project, idea, or questions..."
-                    className="w-full px-4 py-2.5 rounded-lg bg-white/70 dark:bg-stone-900/70 border border-stone-300/80 dark:border-stone-700/80 text-stone-900 dark:text-stone-100 text-sm focus:outline-none focus:border-amber-500 transition-colors resize-none"
+                    className="w-full px-4 py-2.5 rounded-lg bg-white/70 dark:bg-stone-900/70 border border-stone-300/80 dark:border-stone-700/80 text-stone-900 dark:text-stone-100 text-sm focus:outline-none focus:border-amber-500 transition-colors resize-none disabled:opacity-60"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 rounded-xl font-bold text-sm bg-stone-900 text-white hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer mt-2"
+                  disabled={isSubmitting}
+                  className="w-full py-3 px-6 rounded-xl font-bold text-sm bg-stone-900 text-white hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer mt-2 disabled:opacity-75 disabled:cursor-not-allowed"
                 >
-                  <FaPaperPlane className="w-3.5 h-3.5 text-amber-500" />
-                  <span>Send Message</span>
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                      </svg>
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <FaPaperPlane className="w-3.5 h-3.5 text-amber-500" />
+                      <span>Send Message</span>
+                    </>
+                  )}
                 </button>
               </form>
             )}
