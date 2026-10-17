@@ -8,6 +8,7 @@ export default function Hero() {
     >
       {/* 1. فريم الصورة: دائري بأطراف ورق مقصوص بحجم أكبر وبمسافة إطار أصغر */}
         <div className="relative group shrink-0 select-none">
+            
         {/* إطار الورقة المقصوصة الخارجي الدائري مع الظل */}
         <div
           className="w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 p-1 sm:p-1.5 bg-[#fdfbf7] dark:bg-[#25221e] border border-stone-300/80 dark:border-stone-700/80 drop-shadow-[0_12px_24px_rgba(0,0,0,0.18)] dark:drop-shadow-[0_14px_28px_rgba(0,0,0,0.6)] transition-all duration-300 group-hover:rotate-2 group-hover:scale-102"
